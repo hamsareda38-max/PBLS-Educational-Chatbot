@@ -319,7 +319,7 @@ else:
 
             visuals = get_visuals(topic, age)
 
-                            if visuals:
+                          if visuals:
 
                 st.markdown("## 🖼️ Related PBLS Visuals")
 
@@ -338,7 +338,7 @@ else:
                     or qr.get("age") == age
                 )
             ]
-                            if qrs:
+                           if qrs:
 
                 st.markdown("## 🔗 Related QR References")
 
