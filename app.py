@@ -310,7 +310,7 @@ if st.button("Submit", type="primary"):
                     age = "BOTH"
 
                 visuals = get_visuals(topic, age)
-                          if visuals:
+                if visuals:
 
                 st.markdown("## 🖼️ Related PBLS Visuals")
 
