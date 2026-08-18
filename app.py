@@ -310,37 +310,39 @@ if st.button("Submit", type="primary"):
                     age = "BOTH"
 
                 visuals = get_visuals(topic, age)
+
                 if visuals:
 
-                st.markdown("## 🖼️ Related PBLS Visuals")
+                    st.markdown("## 🖼️ Related PBLS Visuals")
 
-                for image_path in visuals:
+                    for image_path in visuals:
 
-                    st.image(
-                        image_path,
-                        use_container_width=True
+                        st.image(
+                            image_path,
+                            use_container_width=True
+                        )
+
+                qrs = [
+                    qr for qr in QR_MAPPINGS
+                    if qr.get("topic") == topic
+                    and (
+                        qr.get("age") == "BOTH"
+                        or qr.get("age") == age
                     )
+                ]
 
-            qrs = [
-                qr for qr in QR_MAPPINGS
-                if qr.get("topic") == topic
-                and (
-                    qr.get("age") == "BOTH"
-                    or qr.get("age") == age
-                )
-            ]
-                           if qrs:
+                if qrs:
 
-                st.markdown("## 🔗 Related QR References")
+                    st.markdown("## 🔗 Related QR References")
 
-                for qr in qrs:
+                    for qr in qrs:
 
-                    st.info(
-                        f"QR {qr['qr']} — "
-                        f"{qr['topic'].replace('_', ' ').title()} — "
-                        f"Page {qr['page']} — "
-                        f"{qr['age']}"
-                    )
+                        st.info(
+                            f"QR {qr['qr']} — "
+                            f"{qr['topic'].replace('_', ' ').title()} — "
+                            f"Page {qr['page']} — "
+                            f"{qr['age']}"
+                        )
 
             except Exception as e:
 
