@@ -272,12 +272,12 @@ if st.button("Submit", type="primary"):
                     top_k=3
                 )
 
-                                st.markdown("## Answer")
+                st.markdown("## Answer")
                 st.markdown(answer)
 
                 pages = get_pages(answer)
 
-                if pages:
+                                if pages:
 
                     st.markdown("## 📚 Relevant Pages")
                     st.write(
@@ -287,8 +287,7 @@ if st.button("Submit", type="primary"):
                         )
                     )
 
-                # Determine visual topic and age
-                q = query.lower()
+                q = question.lower()
 
                 if "rescue breath" in q or "rescue breathing" in q:
                     topic = "rescue_breathing"
