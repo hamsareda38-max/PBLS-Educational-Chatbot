@@ -265,91 +265,91 @@ if st.button("Submit", type="primary"):
 
         with st.spinner("Searching PBLS source..."):
 
-            try:
+            if not question.strip():
 
-                answer = pbls_chat(
-                    question,
-                    top_k=3
+    st.warning("Please enter a PBLS question.")
+
+else:
+
+    with st.spinner("Searching PBLS source..."):
+
+        try:
+
+            answer = pbls_chat(
+                question,
+                top_k=3
+            )
+
+            st.markdown("## Answer")
+            st.markdown(answer)
+
+            pages = get_pages(answer)
+
+            if pages:
+
+                st.markdown("## 📚 Relevant Pages")
+                st.write(
+                    ", ".join(
+                        f"Page {p}"
+                        for p in pages
+                    )
                 )
 
-                st.markdown("## Answer")
-                st.markdown(answer)
+            q = question.lower()
 
-                pages = get_pages(answer)
+            if "rescue breath" in q or "rescue breathing" in q:
+                topic = "rescue_breathing"
+            elif "chest compression" in q or "compressions" in q:
+                topic = "chest_compressions"
+            elif "open airway" in q or "airway" in q:
+                topic = "airway"
+            elif "chain of survival" in q:
+                topic = "chain_of_survival"
+            elif "algorithm" in q:
+                topic = "pbls_algorithm"
+            else:
+                topic = None
 
-                                if pages:
+            if "infant" in q or "baby" in q:
+                age = "INFANT"
+            elif "child" in q:
+                age = "CHILD"
+            else:
+                age = "BOTH"
 
-                    st.markdown("## 📚 Relevant Pages")
-                    st.write(
-                        ", ".join(
-                            f"Page {p}"
-                            for p in pages
-                        )
+            visuals = get_visuals(topic, age)
+
+                            if visuals:
+
+                st.markdown("## 🖼️ Related PBLS Visuals")
+
+                for image_path in visuals:
+
+                    st.image(
+                        image_path,
+                        use_container_width=True
                     )
 
-                q = question.lower()
+            qrs = [
+                qr for qr in QR_MAPPINGS
+                if qr.get("topic") == topic
+                and (
+                    qr.get("age") == "BOTH"
+                    or qr.get("age") == age
+                )
+            ]
+                            if qrs:
 
-                if "rescue breath" in q or "rescue breathing" in q:
-                    topic = "rescue_breathing"
+                st.markdown("## 🔗 Related QR References")
 
-                elif "chest compression" in q or "compressions" in q:
-                    topic = "chest_compressions"
+                for qr in qrs:
 
-                elif "open airway" in q or "airway" in q:
-                    topic = "airway"
-
-                elif "chain of survival" in q:
-                    topic = "chain_of_survival"
-
-                elif "algorithm" in q:
-                    topic = "pbls_algorithm"
-
-                else:
-                    topic = None
-
-                if "infant" in q or "baby" in q:
-                    age = "INFANT"
-
-                elif "child" in q:
-                    age = "CHILD"
-
-                else:
-                    age = "BOTH"
-
-                visuals = get_visuals(topic, age)
-
-                if visuals:
-
-                    st.markdown("## 🖼️ Related PBLS Visuals")
-
-                    for image_path in visuals:
-
-                        st.image(
-                            image_path,
-                            use_container_width=True
-                        )
-
-                qrs = [
-                    qr for qr in QR_MAPPINGS
-                    if qr.get("topic") == topic
-                    and (
-                        qr.get("age") == "BOTH"
-                        or qr.get("age") == age
+                    st.info(
+                        f"QR {qr['qr']} — "
+                        f"{qr['topic'].replace('_', ' ').title()} — "
+                        f"Page {qr['page']} — "
+                        f"{qr['age']}"
                     )
-                ]
-
-                if qrs:
-
-                    st.markdown("## 🔗 Related QR References")
-
-                    for qr in qrs:
-
-                        st.info(
-                            f"QR {qr['qr']} — "
-                            f"{qr['topic'].replace('_', ' ').title()} — "
-                            f"Page {qr['page']} — "
-                            f"{qr['age']}"
-                        )
 
             except Exception as e:
 
