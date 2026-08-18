@@ -272,7 +272,7 @@ if st.button("Submit", type="primary"):
                     top_k=3
                 )
 
-                st.markdown("## Answer")
+                                st.markdown("## Answer")
                 st.markdown(answer)
 
                 pages = get_pages(answer)
@@ -287,26 +287,33 @@ if st.button("Submit", type="primary"):
                         )
                     )
 
-                                # Determine visual topic and age from the user's question
-                                q = query.lower()
+                # Determine visual topic and age
+                q = query.lower()
 
                 if "rescue breath" in q or "rescue breathing" in q:
                     topic = "rescue_breathing"
+
                 elif "chest compression" in q or "compressions" in q:
                     topic = "chest_compressions"
+
                 elif "open airway" in q or "airway" in q:
                     topic = "airway"
+
                 elif "chain of survival" in q:
                     topic = "chain_of_survival"
+
                 elif "algorithm" in q:
                     topic = "pbls_algorithm"
+
                 else:
                     topic = None
 
                 if "infant" in q or "baby" in q:
                     age = "INFANT"
+
                 elif "child" in q:
                     age = "CHILD"
+
                 else:
                     age = "BOTH"
 
