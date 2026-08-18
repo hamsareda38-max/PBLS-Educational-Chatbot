@@ -164,27 +164,66 @@ def get_pages(text):
     return pages
 
 
-def get_visuals(pages):
-
-    paths = []
+def get_visuals(topic=None, age=None):
 
     if not os.path.exists(VISUAL_DIR):
-        return paths
+        return []
 
-    for page in pages:
+    visual_map = {
+        "chain_of_survival": [
+            "fig_1_chain_of_survival.png"
+        ],
 
-        for filename in os.listdir(VISUAL_DIR):
+        "pbls_algorithm": [
+            "fig_6_pbls_algorithm.png"
+        ],
 
-            if f"page_{page}_" in filename.lower():
+        "airway": {
+            "BOTH": [
+                "page_13_image_3.png",
+                "page_13_image_5.png"
+            ],
+            "INFANT": [
+                "page_13_image_3.png"
+            ],
+            "CHILD": [
+                "page_13_image_5.png"
+            ]
+        },
 
-                paths.append(
-                    os.path.join(
-                        VISUAL_DIR,
-                        filename
-                    )
-                )
+        "rescue_breathing": {
+            "BOTH": [
+                "page_13_image_4.png",
+                "page_13_image_6.png"
+            ],
+            "INFANT": [
+                "page_13_image_4.png"
+            ],
+            "CHILD": [
+                "page_13_image_6.png"
+            ]
+        },
 
-    return paths
+        "chest_compressions": [
+            "page_14_image_3.png",
+            "page_14_image_4.png",
+            "page_14_image_5.png"
+        ]
+    }
+
+    selected = visual_map.get(topic)
+
+    if selected is None:
+        return []
+
+    if isinstance(selected, dict):
+        selected = selected.get(age or "BOTH", selected.get("BOTH", []))
+
+    return [
+        os.path.join(VISUAL_DIR, filename)
+        for filename in selected
+        if os.path.exists(os.path.join(VISUAL_DIR, filename))
+    ]
 
 
 def get_qrs(pages):
@@ -248,7 +287,30 @@ if st.button("Submit", type="primary"):
                         )
                     )
 
-                visuals = get_visuals(pages)
+                                # Determine visual topic and age from the user's question
+                                q = query.lower()
+
+                if "rescue breath" in q or "rescue breathing" in q:
+                    topic = "rescue_breathing"
+                elif "chest compression" in q or "compressions" in q:
+                    topic = "chest_compressions"
+                elif "open airway" in q or "airway" in q:
+                    topic = "airway"
+                elif "chain of survival" in q:
+                    topic = "chain_of_survival"
+                elif "algorithm" in q:
+                    topic = "pbls_algorithm"
+                else:
+                    topic = None
+
+                if "infant" in q or "baby" in q:
+                    age = "INFANT"
+                elif "child" in q:
+                    age = "CHILD"
+                else:
+                    age = "BOTH"
+
+                visuals = get_visuals(topic, age)
 
                 if visuals:
 
@@ -261,7 +323,14 @@ if st.button("Submit", type="primary"):
                             use_container_width=True
                         )
 
-                qrs = get_qrs(pages)
+                qrs = [
+                    qr for qr in QR_MAPPINGS
+                    if qr.get("topic") == topic
+                    and (
+                        qr.get("age") == "BOTH"
+                        or qr.get("age") == age
+                    )
+                ]
 
                 if qrs:
 
