@@ -261,31 +261,47 @@ question = st.text_area(
     height=120
 )
 
-if st.button("Submit", type="primary"):
+if st.button(
+    "Submit",
+    type="primary"
+):
 
     if not question.strip():
 
-        st.warning("Please enter a PBLS question.")
+        st.warning(
+            "Please enter a PBLS question."
+        )
 
     else:
 
-        with st.spinner("Searching PBLS source..."):
+        with st.spinner(
+            "Searching PBLS source..."
+        ):
 
-                        try:
+            try:
 
                 answer = pbls_chat(
                     question,
                     top_k=3
                 )
 
-                st.markdown("## Answer")
-                st.markdown(answer)
+                st.markdown(
+                    "## Answer"
+                )
 
-                pages = get_pages(answer)
+                st.markdown(
+                    answer
+                )
+
+                pages = get_pages(
+                    answer
+                )
 
                 if pages:
 
-                    st.markdown("## 📚 Relevant Pages")
+                    st.markdown(
+                        "## 📚 Relevant Pages"
+                    )
 
                     st.write(
                         ", ".join(
@@ -296,31 +312,60 @@ if st.button("Submit", type="primary"):
 
                 q = question.lower()
 
-                if "rescue breath" in q or "rescue breathing" in q:
+                if (
+                    "rescue breath" in q
+                    or
+                    "rescue breathing" in q
+                ):
+
                     topic = "rescue_breathing"
 
-                elif "chest compression" in q or "compressions" in q:
+                elif (
+                    "chest compression" in q
+                    or
+                    "compressions" in q
+                ):
+
                     topic = "chest_compressions"
 
-                elif "open airway" in q or "airway" in q:
+                elif (
+                    "open airway" in q
+                    or
+                    "airway" in q
+                ):
+
                     topic = "airway"
 
-                elif "chain of survival" in q:
+                elif (
+                    "chain of survival" in q
+                ):
+
                     topic = "chain_of_survival"
 
-                elif "algorithm" in q:
+                elif (
+                    "algorithm" in q
+                ):
+
                     topic = "pbls_algorithm"
 
                 else:
+
                     topic = None
 
-                if "infant" in q or "baby" in q:
+                if (
+                    "infant" in q
+                    or
+                    "baby" in q
+                ):
+
                     age = "INFANT"
 
                 elif "child" in q:
+
                     age = "CHILD"
 
                 else:
+
                     age = "BOTH"
 
                 visuals = get_visuals(
@@ -347,7 +392,8 @@ if st.button("Submit", type="primary"):
                     if qr.get("topic") == topic
                     and (
                         qr.get("age") == "BOTH"
-                        or qr.get("age") == age
+                        or
+                        qr.get("age") == age
                     )
                 ]
 
@@ -361,8 +407,10 @@ if st.button("Submit", type="primary"):
 
                         qr_number = qr["qr"]
 
-                        qr_filename = QR_IMAGE_MAP.get(
-                            qr_number
+                        qr_filename = (
+                            QR_IMAGE_MAP.get(
+                                qr_number
+                            )
                         )
 
                         st.markdown(
