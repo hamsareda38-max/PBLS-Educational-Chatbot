@@ -221,7 +221,12 @@ def get_visuals(
                 "page_14_image_4.png",
                 "page_14_image_5.png"
             ]
-        }
+        },
+
+        "aed": [
+            "page_15_image_1.png",
+            "page_15_image_2.png"
+        ]
     }
 
     selected = visual_map.get(topic)
@@ -367,12 +372,11 @@ if st.button(
 
                     topic = "chain_of_survival"
 
-                elif (
-                    "algorithm" in q
-                ):
-
+                elif "algorithm" in q:
                     topic = "pbls_algorithm"
 
+                elif "aed" in q or "defibrillator" in q:
+                    topic = "aed"
                 else:
 
                     topic = None
