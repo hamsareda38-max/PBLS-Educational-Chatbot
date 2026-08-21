@@ -233,7 +233,13 @@ def get_qrs(pages):
         if qr.get("page") in pages
     ]
 
-
+QR_IMAGE_MAP = {
+    1: "open airway.png",
+    2: "page_13_image_1.png",
+    3: "page_13_image_2.png",
+    4: "page_14_image_1.png",
+    5: "page_14_image_2.png",
+}
 # =========================
 # Streamlit UI
 # =========================
@@ -332,17 +338,30 @@ if st.button("Submit", type="primary"):
                 ]
 
                 if qrs:
+                      st.markdown("## 🔗 Related QR References")
 
-                    st.markdown("## 🔗 Related QR References")
+    for qr in qrs:
+        qr_number = qr["qr"]
+        qr_filename = QR_IMAGE_MAP.get(qr_number)
 
-                    for qr in qrs:
+        st.markdown(
+            f"### QR {qr_number} — "
+            f"{qr['topic'].replace('_', ' ').title()} "
+            f"— Page {qr['page']}"
+        )
 
-                        st.info(
-                            f"QR {qr['qr']} — "
-                            f"{qr['topic'].replace('_', ' ').title()} — "
-                            f"Page {qr['page']} — "
-                            f"{qr['age']}"
-                        )
+        if qr_filename:
+            qr_path = os.path.join(VISUAL_DIR, qr_filename)
+
+            if os.path.exists(qr_path):
+                st.image(
+                    qr_path,
+                    width=220
+                )
+            else:
+                st.warning(
+                    f"QR image not found: {qr_filename}"
+                )
 
             except Exception as e:
 
