@@ -271,7 +271,7 @@ if st.button("Submit", type="primary"):
 
         with st.spinner("Searching PBLS source..."):
 
-            try:
+                        try:
 
                 answer = pbls_chat(
                     question,
@@ -286,6 +286,7 @@ if st.button("Submit", type="primary"):
                 if pages:
 
                     st.markdown("## 📚 Relevant Pages")
+
                     st.write(
                         ", ".join(
                             f"Page {p}"
@@ -297,29 +298,41 @@ if st.button("Submit", type="primary"):
 
                 if "rescue breath" in q or "rescue breathing" in q:
                     topic = "rescue_breathing"
+
                 elif "chest compression" in q or "compressions" in q:
                     topic = "chest_compressions"
+
                 elif "open airway" in q or "airway" in q:
                     topic = "airway"
+
                 elif "chain of survival" in q:
                     topic = "chain_of_survival"
+
                 elif "algorithm" in q:
                     topic = "pbls_algorithm"
+
                 else:
                     topic = None
 
                 if "infant" in q or "baby" in q:
                     age = "INFANT"
+
                 elif "child" in q:
                     age = "CHILD"
+
                 else:
                     age = "BOTH"
 
-                visuals = get_visuals(topic, age)
+                visuals = get_visuals(
+                    topic,
+                    age
+                )
 
                 if visuals:
 
-                    st.markdown("## 🖼️ Related PBLS Visuals")
+                    st.markdown(
+                        "## 🖼️ Related PBLS Visuals"
+                    )
 
                     for image_path in visuals:
 
@@ -328,8 +341,9 @@ if st.button("Submit", type="primary"):
                             use_container_width=True
                         )
 
-                                                qrs = [
-                    qr for qr in QR_MAPPINGS
+                qrs = [
+                    qr
+                    for qr in QR_MAPPINGS
                     if qr.get("topic") == topic
                     and (
                         qr.get("age") == "BOTH"
@@ -338,11 +352,18 @@ if st.button("Submit", type="primary"):
                 ]
 
                 if qrs:
-                    st.markdown("## 🔗 Related QR References")
+
+                    st.markdown(
+                        "## 🔗 Related QR References"
+                    )
 
                     for qr in qrs:
+
                         qr_number = qr["qr"]
-                        qr_filename = QR_IMAGE_MAP.get(qr_number)
+
+                        qr_filename = QR_IMAGE_MAP.get(
+                            qr_number
+                        )
 
                         st.markdown(
                             f"### QR {qr_number} — "
@@ -351,22 +372,30 @@ if st.button("Submit", type="primary"):
                         )
 
                         if qr_filename:
+
                             qr_path = os.path.join(
                                 VISUAL_DIR,
                                 qr_filename
                             )
 
-                            if os.path.exists(qr_path):
+                            if os.path.exists(
+                                qr_path
+                            ):
+
                                 st.image(
                                     qr_path,
                                     width=220
                                 )
+
                             else:
+
                                 st.warning(
-                                    f"QR image not found: {qr_filename}"
+                                    f"QR image not found: "
+                                    f"{qr_filename}"
                                 )
 
             except Exception as e:
+
                 st.error(
                     f"Application error: {e}"
                 )
