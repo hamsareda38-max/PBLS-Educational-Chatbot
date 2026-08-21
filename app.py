@@ -264,7 +264,7 @@ def get_qrs(pages):
     ]
 
 QR_IMAGE_MAP = {
-    1: "open airway.png",
+    1: "Open airway.png",
     2: "page_13_image_1.png",
     3: "page_13_image_2.png",
     4: "page_14_image_1.png",
