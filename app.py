@@ -204,12 +204,20 @@ def get_visuals(topic=None, age=None):
             ]
         },
 
-        "chest_compressions": [
-            "page_14_image_3.png",
-            "page_14_image_4.png",
-            "page_14_image_5.png"
-        ]
-    }
+                "chest_compressions": {
+            "INFANT": [
+                "page_14_image_3.png"
+            ],
+            "CHILD": [
+                "page_14_image_4.png",
+                "page_14_image_5.png"
+            ],
+            "BOTH": [
+                "page_14_image_3.png",
+                "page_14_image_4.png",
+                "page_14_image_5.png"
+            ]
+        }
 
     selected = visual_map.get(topic)
 
