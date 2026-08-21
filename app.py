@@ -328,7 +328,7 @@ if st.button("Submit", type="primary"):
                             use_container_width=True
                         )
 
-                qrs = [
+                                qrs = [
                     qr for qr in QR_MAPPINGS
                     if qr.get("topic") == topic
                     and (
@@ -338,29 +338,37 @@ if st.button("Submit", type="primary"):
                 ]
 
                 if qrs:
-                      st.markdown("## 🔗 Related QR References")
+                    st.markdown("## 🔗 Related QR References")
 
-    for qr in qrs:
-        qr_number = qr["qr"]
-        qr_filename = QR_IMAGE_MAP.get(qr_number)
+                    for qr in qrs:
+                        qr_number = qr["qr"]
+                        qr_filename = QR_IMAGE_MAP.get(qr_number)
 
-        st.markdown(
-            f"### QR {qr_number} — "
-            f"{qr['topic'].replace('_', ' ').title()} "
-            f"— Page {qr['page']}"
-        )
+                        st.markdown(
+                            f"### QR {qr_number} — "
+                            f"{qr['topic'].replace('_', ' ').title()} "
+                            f"— Page {qr['page']}"
+                        )
 
-        if qr_filename:
-            qr_path = os.path.join(VISUAL_DIR, qr_filename)
+                        if qr_filename:
+                            qr_path = os.path.join(
+                                VISUAL_DIR,
+                                qr_filename
+                            )
 
-            if os.path.exists(qr_path):
-                st.image(
-                    qr_path,
-                    width=220
-                )
-            else:
-                st.warning(
-                    f"QR image not found: {qr_filename}"
+                            if os.path.exists(qr_path):
+                                st.image(
+                                    qr_path,
+                                    width=220
+                                )
+                            else:
+                                st.warning(
+                                    f"QR image not found: {qr_filename}"
+                                )
+
+            except Exception as e:
+                st.error(
+                    f"Application error: {e}"
                 )
 
             except Exception as e:
