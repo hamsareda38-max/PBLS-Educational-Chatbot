@@ -328,7 +328,7 @@ if st.button("Submit", type="primary"):
                             use_container_width=True
                         )
 
-                                qrs = [
+                                                qrs = [
                     qr for qr in QR_MAPPINGS
                     if qr.get("topic") == topic
                     and (
@@ -367,12 +367,6 @@ if st.button("Submit", type="primary"):
                                 )
 
             except Exception as e:
-                st.error(
-                    f"Application error: {e}"
-                )
-
-            except Exception as e:
-
                 st.error(
                     f"Application error: {e}"
                 )
