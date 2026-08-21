@@ -164,12 +164,15 @@ def get_pages(text):
     return pages
 
 
-def get_visuals(topic=None, age=None):
+def get_visuals(
+    topic=None,
+    age=None
+):
 
     if not os.path.exists(VISUAL_DIR):
         return []
 
-        visual_map = {
+    visual_map = {
 
         "chain_of_survival": [
             "fig_1_chain_of_survival.png"
@@ -227,16 +230,23 @@ def get_visuals(topic=None, age=None):
         return []
 
     if isinstance(selected, dict):
+
         selected = selected.get(
             age or "BOTH",
             selected.get("BOTH", [])
         )
 
     return [
-        os.path.join(VISUAL_DIR, filename)
+        os.path.join(
+            VISUAL_DIR,
+            filename
+        )
         for filename in selected
         if os.path.exists(
-            os.path.join(VISUAL_DIR, filename)
+            os.path.join(
+                VISUAL_DIR,
+                filename
+            )
         )
     ]
 
