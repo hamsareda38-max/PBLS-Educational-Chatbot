@@ -420,9 +420,19 @@ if st.button(
                     for qr in QR_MAPPINGS
                     if qr.get("topic") == topic
                     and (
-                        qr.get("age") == "BOTH"
+                        (
+                            topic == "chest_compressions"
+                            and qr.get("age") == age
+                        )
                         or
-                        qr.get("age") == age
+                        (
+                            topic != "chest_compressions"
+                            and (
+                                qr.get("age") == "BOTH"
+                                or
+                                qr.get("age") == age
+                            )
+                        )
                     )
                 ]
 
