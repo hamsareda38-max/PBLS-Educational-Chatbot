@@ -6,7 +6,11 @@ import faiss
 import streamlit as st
 from sentence_transformers import SentenceTransformer
 from google import genai
-
+st.set_page_config(
+    page_title="PBLS Educational Chatbot",
+    page_icon="🫀",
+    layout="wide"
+)
 
 # =========================
 # Paths
