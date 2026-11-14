@@ -12,7 +12,18 @@ st.set_page_config(
     page_icon="🫀",
     layout="wide"
 )
+# =========================
+# Supabase connection
+# =========================
 
+if "supabase" not in st.session_state:
+
+    st.session_state.supabase = create_client(
+        st.secrets["SUPABASE_URL"],
+        st.secrets["SUPABASE_PUBLISHABLE_KEY"]
+    )
+
+supabase = st.session_state.supabase
 # =========================
 # Paths
 # =========================
